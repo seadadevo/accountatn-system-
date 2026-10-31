@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نظام إدارة مكتب المحاسب القانوني – عرض تجريبي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--tx:#14213d;--mut:#6b7691;--bd:#e3e8f1;--pr:#1d4ed8;--pr2:#e8efff;--ok:#0f9d6b;--warn:#d98a0b;--bad:#d93a3a;--side:#0f1f3d;--sidetx:#c9d4ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1220;--card:#161d30;--tx:#e8edf8;--mut:#8f9bb8;--bd:#263050;--pr:#6b95ff;--pr2:#1e2a4d;--side:#0a0f1c}}
+:root[data-theme="dark"]{--bg:#0d1220;--card:#161d30;--tx:#e8edf8;--mut:#8f9bb8;--bd:#263050;--pr:#6b95ff;--pr2:#1e2a4d;--side:#0a0f1c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Cairo',Tahoma,Arial,sans-serif;font-size:14px}
+.app{display:flex;min-height:100vh}
+aside{width:230px;background:var(--side);color:var(--sidetx);padding:16px 10px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{font-weight:700;font-size:16px;color:#fff;padding:6px 10px 16px;line-height:1.4}
+.logo small{display:block;font-weight:400;color:var(--sidetx);font-size:11px}
+nav button{display:flex;gap:10px;align-items:center;width:100%;background:none;border:0;color:inherit;font:inherit;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:right}
+nav button:hover{background:rgba(255,255,255,.07)}
+nav button.on{background:var(--pr);color:#fff}
+main{flex:1;min-width:0;padding:18px 22px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:20px;margin:0}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select,input,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:7px 10px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+.btn.g{background:var(--pr2);color:var(--pr)}
+.bell{position:relative}
+.bell b{position:absolute;top:-6px;left:-6px;background:var(--bad);color:#fff;border-radius:99px;font-size:10px;padding:1px 5px}
+.grid{display:grid;gap:14px}
+.k4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.k2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}
+.card h3{margin:0 0 10px;font-size:15px}
+.kpi small{color:var(--mut)}
+.kpi div{font-size:22px;font-weight:700;margin-top:4px}
+.kpi i{font-style:normal;font-size:12px;color:var(--ok)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{color:var(--mut);font-weight:600;font-size:12px}
+tr.c{cursor:pointer}tr.c:hover{background:var(--pr2)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600}
+.ok{background:#0f9d6b22;color:var(--ok)}.wr{background:#d98a0b22;color:var(--warn)}.bd{background:#d93a3a22;color:var(--bad)}.in{background:var(--pr2);color:var(--pr)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.row:last-child{border:0}
+.kan{display:grid;grid-template-columns:repeat(3,minmax(200px,1fr));gap:12px;overflow-x:auto}
+.col{background:var(--bg);border-radius:12px;padding:10px;min-height:200px}
+.col h4{margin:0 0 8px;font-size:13px;color:var(--mut)}
+.task{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer}
+.task small{color:var(--mut);display:block;margin-top:4px}
+.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal>div{background:var(--card);border-radius:14px;padding:18px;width:100%;max-width:440px;max-height:90vh;overflow:auto}
+.modal label{display:block;margin:8px 0 3px;color:var(--mut);font-size:12px}
+.modal input,.modal select{width:100%}
+.pop{position:absolute;left:0;top:36px;width:290px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;z-index:20;box-shadow:0 8px 24px #0003}
+.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pr)}
+.menu{display:none}
+@media(max-width:800px){aside{position:fixed;right:0;top:0;z-index:30;transform:translateX(100%);transition:.2s}aside.open{transform:none}.menu{display:inline-block}main{padding:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside id="side"><div class="logo">⚖️ مكتب النخبة للمراجعة<small>نظام إدارة المكتب – عرض تجريبي</small></div><nav id="nav"></nav></aside>
+<main>
+<div class="top">
+<div style="display:flex;gap:10px;align-items:center"><button class="btn g menu" onclick="side.classList.toggle('open')">☰</button><h1 id="ttl"></h1></div>
+<div class="tools">
+<span style="color:var(--mut)">الصلاحية:</span>
+<select id="role" onchange="setRole(this.value)"><option value="admin">مدير المكتب</option><option value="acc">محاسب</option><option value="staff">موظف</option></select>
+<div class="bell"><button class="btn g" onclick="togglePop()">🔔</button><b id="bc"></b><div class="pop" id="pop" hidden></div></div>
+</div>
+</div>
+<div id="view"></div>
+</main>
+</div>
+<div id="mod"></div>
+<script>
+const TODAY=new Date('2026-10-31');
+const $=s=>document.querySelector(s);
+const f=n=>Number(n).toLocaleString('en-US');
+const dd=n=>{const d=new Date(TODAY);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const days=s=>Math.round((new Date(s)-TODAY)/864e5);
+const S={
+clients:[
+{id:1,n:'شركة الأمل للتجارة',t:'شركة',tax:'412-558-901',ph:'0100 123 4567',st:'نشط',bal:48500},
+{id:2,n:'مصنع النيل للبلاستيك',t:'شركة',tax:'305-221-774',ph:'0122 765 4321',st:'نشط',bal:0},
+{id:3,n:'د. هشام عبد الله (عيادة)',t:'فرد',tax:'218-904-663',ph:'0111 222 3344',st:'نشط',bal:12000},
+{id:4,n:'مطاعم السرايا',t:'شركة',tax:'507-113-208',ph:'0155 908 7766',st:'متأخر',bal:73200},
+{id:5,n:'مكتب الرواد للمقاولات',t:'شركة',tax:'611-870-342',ph:'0106 441 2288',st:'نشط',bal:21000}],
+je:[
+{id:1,d:'2026-10-28',desc:'إيراد أتعاب مراجعة – الأمل',dr:'الصندوق',cr:'إيرادات الأتعاب',a:25000},
+{id:2,d:'2026-10-27',desc:'إيجار المكتب – أكتوبر',dr:'مصروف إيجار',cr:'البنك',a:18000},
+{id:3,d:'2026-10-25',desc:'رواتب الموظفين',dr:'مصروف رواتب',cr:'البنك',a:64000},
+{id:4,d:'2026-10-22',desc:'أتعاب إعداد إقرارات – النيل',dr:'البنك',cr:'إيرادات الأتعاب',a:32000}],
+tax:[
+{id:1,c:'شركة الأمل للتجارة',k:'إقرار ضريبة القيمة المضافة',due:dd(3),done:false},
+{id:2,c:'مطاعم السرايا',k:'ضريبة كسب العمل',due:dd(-2),done:false},
+{id:3,c:'مصنع النيل للبلاستيك',k:'إقرار ضريبة الدخل السنوي',due:dd(12),done:false},
+{id:4,c:'د. هشام عبد الله',k:'الإقرار الضريبي للأفراد',due:dd(25),done:false},
+{id:5,c:'مكتب الرواد للمقاولات',k:'ضريبة الدمغة',due:dd(-10),done:true}],
+inv:[
+{id:'INV-1042',c:'شركة الأمل للتجارة',a:25000,d:'2026-10-28',st:'مدفوعة'},
+{id:'INV-1041',c:'مصنع النيل للبلاستيك',a:32000,d:'2026-10-22',st:'مدفوعة'},
+{id:'INV-1040',c:'مطاعم السرايا',a:18500,d:'2026-10-15',st:'متأخرة'},
+{id:'INV-1039',c:'مكتب الرواد للمقاولات',a:21000,d:'2026-10-10',st:'معلقة'}],
+exp:[{c:'إيجار المكتب',a:18000},{c:'رواتب',a:64000},{c:'اشتراكات برامج',a:4200},{c:'مرافق وإنترنت',a:3100}],
+emp:[{n:'مروان فتحي',r:'محاسب أول',l:78},{n:'سلمى إبراهيم',r:'محاسبة',l:64},{n:'كريم سعد',r:'مراجع',l:90},{n:'نور الدين',r:'سكرتارية',l:52}],
+tasks:[
+{id:1,t:'مراجعة ميزانية الأمل 2026',who:'كريم سعد',c:'شركة الأمل',s:0},
+{id:2,t:'تجهيز إقرار القيمة المضافة',who:'مروان فتحي',c:'شركة الأمل',s:1},
+{id:3,t:'تسوية حسابات البنك',who:'سلمى إبراهيم',c:'مصنع النيل',s:1},
+{id:4,t:'أرشفة مستندات السرايا',who:'نور الدين',c:'مطاعم السرايا',s:2},
+{id:5,t:'إعداد تقرير الفحص الضريبي',who:'كريم سعد',c:'مكتب الرواد',s:0}],
+cases:[
+{id:'ق-2026/118',c:'مطاعم السرايا',k:'نزاع فحص ضريبي – لجنة الطعن',nx:dd(9),st:'منظورة',docs:['صورة الإخطار.pdf','مذكرة الدفاع.docx','كشوف الحساب.xlsx']},
+{id:'ق-2026/091',c:'شركة الأمل',k:'اعتراض على تقدير ضريبي',nx:dd(21),st:'قيد الإعداد',docs:['خطاب التوكيل.pdf','الميزانية 2025.pdf']},
+{id:'ق-2025/302',c:'مكتب الرواد',k:'مطالبة بغرامات تأخير',nx:dd(-5),st:'محكوم فيها',docs:['الحكم النهائي.pdf']}]
+};
+const NAV=[['dash','لوحة التحكم','📊','admin acc staff'],['cli','العملاء','🏢','admin acc staff'],['acc','الحسابات والقيود','📒','admin acc'],['tax','الضرائب والإقرارات','🧾','admin acc'],['inv','الفواتير والمصروفات','💳','admin acc'],['emp','الموظفون والمهام','👥','admin staff'],['cas','القضايا والمستندات','📁','admin acc staff'],['rep','التقارير','📈','admin acc']];
+let role='admin',page='dash';
+const T={dash:'لوحة التحكم',cli:'إدارة العملاء',acc:'الحسابات والقيود اليومية',tax:'الضرائب والإقرارات',inv:'الفواتير والمصروفات',emp:'الموظفون وتوزيع المهام',cas:'القضايا والمستندات',rep:'التقارير المالية والإدارية'};
+const income=()=>S.je.filter(e=>e.cr==='إيرادات الأتعاب').reduce((a,e)=>a+e.a,0);
+const expense=()=>S.exp.reduce((a,e)=>a+e.c*0+e.a,0);
+function nav(){$('#nav').innerHTML=NAV.filter(n=>n[3].includes(role)).map(n=>`<button class="${n[0]===page?'on':''}" onclick="go('${n[0]}')"><span>${n[2]}</span>${n[1]}</button>`).join('')}
+function go(p){page=p;side.classList.remove('open');render()}
+function setRole(r){role=r;if(!NAV.find(n=>n[0]===page&&n[3].includes(r)))page='dash';render()}
+function alerts(){const a=[];S.tax.filter(t=>!t.done).forEach(t=>{const d=days(t.due);if(d<0)a.push(['bd',`متأخر ${-d} يوم: ${t.k} – ${t.c}`]);else if(d<=7)a.push(['wr',`باقي ${d} أيام: ${t.k} – ${t.c}`])});
+S.tasks.filter(t=>t.s<2).slice(0,2).forEach(t=>a.push(['in','مهمة مستحقة: '+t.t]));S.cases.filter(c=>days(c.nx)>=0&&days(c.nx)<=10).forEach(c=>a.push(['wr',`جلسة بعد ${days(c.nx)} أيام: ${c.id}`]));return a}
+function togglePop(){const p=$('#pop');p.hidden=!p.hidden;p.innerHTML=alerts().map(a=>`<div class="row"><span class="tag ${a[0]}">●</span><span style="flex:1;font-size:13px">${a[1]}</span></div>`).join('')}
+function render(){nav();$('#ttl').textContent=T[page];$('#bc').textContent=alerts().length;$('#pop').hidden=true;$('#view').innerHTML=V[page]();window.scrollTo(0,0)}
+function chart(){const m=['مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر'],r=[92,108,97,121,115,income()/1000+0],e=[70,74,69,81,78,expense()/1000];
+const mx=Math.max(...r,...e),W=520,H=190;let s=`<svg viewBox="0 0 ${W} ${H+24}" width="100%" role="img" aria-label="الإيرادات مقابل المصروفات">`;
+m.forEach((x,i)=>{const X=14+i*84,h1=r[i]/mx*H,h2=e[i]/mx*H;s+=`<rect x="${X}" y="${H-h1}" width="30" height="${h1}" rx="4" fill="var(--pr)"/><rect x="${X+34}" y="${H-h2}" width="30" height="${h2}" rx="4" fill="var(--warn)"/><text x="${X+32}" y="${H+16}" text-anchor="middle" font-size="11" fill="var(--mut)">${x}</text>`});
+return s+'</svg><div style="font-size:12px;color:var(--mut)"><span style="color:var(--pr)">■</span> الإيرادات &nbsp; <span style="color:var(--warn)">■</span> المصروفات (بالألف ج.م)</div>'}
+const st=s=>`<span class="tag ${{'نشط':'ok','مدفوعة':'ok','محكوم فيها':'ok','متأخر':'bd','متأخرة':'bd','معلقة':'wr','منظورة':'in','قيد الإعداد':'wr'}[s]||'in'}">${s}</span>`;
+const V={
+dash(){const u=S.tax.filter(t=>!t.done).sort((a,b)=>a.due>b.due?1:-1).slice(0,4);
+return `<div class="grid k4"><div class="card kpi"><small>إيرادات أكتوبر</small><div>${f(income()+0)} ج.م</div><i>▲ 12% عن الشهر السابق</i></div>
+<div class="card kpi"><small>المصروفات</small><div>${f(expense())} ج.م</div><i>▼ 3%</i></div>
+<div class="card kpi"><small>العملاء النشطون</small><div>${S.clients.length}</div><i>+2 هذا الشهر</i></div>
+<div class="card kpi"><small>مستحقات غير محصلة</small><div>${f(S.inv.filter(i=>i.st!=='مدفوعة').reduce((a,i)=>a+i.a,0))} ج.م</div><i style="color:var(--bad)">${S.inv.filter(i=>i.st==='متأخرة').length} فاتورة متأخرة</i></div></div>
+<div class="grid k2" style="margin-top:14px"><div class="card"><h3>الإيرادات والمصروفات – آخر 6 أشهر</h3>${chart()}</div>
+<div class="card"><h3>أقرب المواعيد الضريبية</h3>${u.map(t=>{const d=days(t.due);return `<div class="row"><div><b>${t.k}</b><div style="color:var(--mut);font-size:12px">${t.c}</div></div><span class="tag ${d<0?'bd':d<=7?'wr':'ok'}">${d<0?'متأخر '+-d+' يوم':'بعد '+d+' يوم'}</span></div>`}).join('')}</div>
+<div class="card"><h3>المهام الجارية</h3>${S.tasks.filter(t=>t.s<2).map(t=>`<div class="row"><span>${t.t}<small style="display:block;color:var(--mut)">${t.who}</small></span>${st(t.s?'قيد التنفيذ':'جديدة').replace('tag ','tag in ')}</div>`).join('')}</div>
+<div class="card"><h3>حمل العمل على الفريق</h3>${S.emp.map(e=>`<div style="margin:8px 0"><div style="display:flex;justify-content:space-between"><span>${e.n}</span><span style="color:var(--mut)">${e.l}%</span></div><div class="bar"><i style="width:${e.l}%;${e.l>85?'background:var(--bad)':''}"></i></div></div>`).join('')}</div></div>`},
+cli(){return `<div class="card"><div class="top" style="margin:0 0 10px"><input id="q" placeholder="بحث عن عميل…" oninput="filt()"><button class="btn" onclick="addClient()">+ عميل جديد</button></div><div class="tw"><table><thead><tr><th>العميل</th><th>النوع</th><th>الرقم الضريبي</th><th>الهاتف</th><th>الرصيد المستحق</th><th>الحالة</th></tr></thead><tbody id="cb">${cRows(S.clients)}</tbody></table></div></div>`},
+acc(){const tot=S.je.reduce((a,e)=>a+e.a,0);return `<div class="card"><div class="top" style="margin:0 0 10px"><span>القيود متوازنة ✓ إجمالي المدين = إجمالي الدائن = <b>${f(tot)}</b> ج.م</span><button class="btn" onclick="addJE()">+ قيد جديد</button></div><div class="tw"><table><thead><tr><th>#</th><th>التاريخ</th><th>البيان</th><th>مدين</th><th>دائن</th><th>المبلغ</th></tr></thead><tbody>${S.je.map(e=>`<tr><td>${e.id}</td><td>${e.d}</td><td>${e.desc}</td><td>${e.dr}</td><td>${e.cr}</td><td><b>${f(e.a)}</b></td></tr>`).join('')}</tbody></table></div></div>`},
+tax(){return `<div class="card"><h3>جدول الإقرارات والمواعيد النهائية</h3><div class="tw"><table><thead><tr><th>العميل</th><th>الإقرار</th><th>الموعد النهائي</th><th>المتبقي</th><th>الحالة</th><th></th></tr></thead><tbody>${S.tax.map(t=>{const d=days(t.due);return `<tr><td>${t.c}</td><td>${t.k}</td><td>${t.due}</td><td>${t.done?'—':d<0?'متأخر '+-d+' يوم':d+' يوم'}</td><td>${t.done?'<span class="tag ok">تم التقديم</span>':d<0?'<span class="tag bd">متأخر</span>':d<=7?'<span class="tag wr">عاجل</span>':'<span class="tag in">قادم</span>'}</td><td>${t.done?'':`<button class="btn g" onclick="doneTax(${t.id})">تم التقديم</button>`}</td></tr>`}).join('')}</tbody></table></div></div>`},
+inv(){const paid=S.inv.filter(i=>i.st==='مدفوعة').reduce((a,i)=>a+i.a,0);return `<div class="grid k4" style="margin-bottom:14px"><div class="card kpi"><small>محصّل</small><div style="color:var(--ok)">${f(paid)}</div></div><div class="card kpi"><small>مستحق</small><div style="color:var(--warn)">${f(S.inv.filter(i=>i.st!=='مدفوعة').reduce((a,i)=>a+i.a,0))}</div></div><div class="card kpi"><small>إجمالي المصروفات</small><div>${f(expense())}</div></div></div>
+<div class="grid k2"><div class="card"><div class="top" style="margin:0 0 10px"><h3 style="margin:0">الفواتير</h3><button class="btn" onclick="addInv()">+ فاتورة</button></div><div class="tw"><table><thead><tr><th>الرقم</th><th>العميل</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>${S.inv.map(i=>`<tr class="c" onclick="payInv('${i.id}')"><td>${i.id}</td><td>${i.c}</td><td>${f(i.a)}</td><td>${st(i.st)}</td></tr>`).join('')}</tbody></table></div><small style="color:var(--mut)">اضغط على فاتورة غير مدفوعة لتسجيل السداد</small></div>
+<div class="card"><h3>المصروفات</h3>${S.exp.map(e=>`<div class="row"><span>${e.c}</span><b>${f(e.a)} ج.م</b></div>`).join('')}</div></div>`},
+emp(){return `<div class="card" style="margin-bottom:14px"><h3>فريق العمل</h3><div class="tw"><table><thead><tr><th>الاسم</th><th>الوظيفة</th><th>المهام النشطة</th><th>حمل العمل</th></tr></thead><tbody>${S.emp.map(e=>`<tr><td>${e.n}</td><td>${e.r}</td><td>${S.tasks.filter(t=>t.who===e.n&&t.s<2).length}</td><td style="width:160px"><div class="bar"><i style="width:${e.l}%"></i></div></td></tr>`).join('')}</tbody></table></div></div>
+<div class="top"><h3 style="margin:0">لوحة المهام <small style="color:var(--mut)">(اضغط على المهمة لنقلها للمرحلة التالية)</small></h3><button class="btn" onclick="addTask()">+ مهمة</button></div><div class="kan">${['جديدة','قيد التنفيذ','مكتملة'].map((n,i)=>`<div class="col"><h4>${n} (${S.tasks.filter(t=>t.s===i).length})</h4>${S.tasks.filter(t=>t.s===i).map(t=>`<div class="task" onclick="mv(${t.id})"><b>${t.t}</b><small>👤 ${t.who} · ${t.c}</small></div>`).join('')}</div>`).join('')}</div>`},
+cas(){return S.cases.map(c=>`<div class="card" style="margin-bottom:12px"><div class="row" style="border:0"><div><b>${c.id}</b> – ${c.c}<div style="color:var(--mut)">${c.k}</div></div>${st(c.st)}</div><div style="color:var(--mut);font-size:12px;margin:4px 0 8px">الجلسة القادمة: ${c.nx}</div><div style="display:flex;gap:8px;flex-wrap:wrap">${c.docs.map(d=>`<span class="tag in">📄 ${d}</span>`).join('')}</div></div>`).join('')},
+rep(){const i=income(),e=expense();return `<div class="top"><span></span><button class="btn g" onclick="window.print()">🖨️ طباعة / PDF</button></div><div class="grid k2"><div class="card"><h3>قائمة الدخل – أكتوبر 2026</h3><div class="row"><span>إيرادات الأتعاب</span><b>${f(i)}</b></div><div class="row"><span>إجمالي المصروفات</span><b>${f(e)}</b></div><div class="row"><span>صافي الربح</span><b style="color:${i-e>=0?'var(--ok)':'var(--bad)'}">${f(i-e)}</b></div></div>
+<div class="card"><h3>الإيرادات حسب العميل</h3>${S.inv.map(v=>`<div style="margin:8px 0"><div style="display:flex;justify-content:space-between"><span>${v.c}</span><span>${f(v.a)}</span></div><div class="bar"><i style="width:${v.a/32000*100}%"></i></div></div>`).join('')}</div>
+<div class="card"><h3>تقرير إداري</h3><div class="row"><span>مهام مكتملة</span><b>${S.tasks.filter(t=>t.s===2).length}/${S.tasks.length}</b></div><div class="row"><span>إقرارات تم تقديمها</span><b>${S.tax.filter(t=>t.done).length}/${S.tax.length}</b></div><div class="row"><span>قضايا منظورة</span><b>${S.cases.filter(c=>c.st==='منظورة').length}</b></div></div></div>`}
+};
+function cRows(l){return l.map(c=>`<tr class="c" onclick="client(${c.id})"><td><b>${c.n}</b></td><td>${c.t}</td><td>${c.tax}</td><td>${c.ph}</td><td>${f(c.bal)}</td><td>${st(c.st)}</td></tr>`).join('')}
+function filt(){const q=$('#q').value;$('#cb').innerHTML=cRows(S.clients.filter(c=>c.n.includes(q)||c.tax.includes(q)))}
+function modal(t,body,ok){$('#mod').innerHTML=`<div class="modal" onclick="if(event.target===this)closeM()"><div><h3 style="margin-top:0">${t}</h3>${body}<div style="margin-top:14px;display:flex;gap:8px">${ok?'<button class="btn" id="mok">حفظ</button>':''}<button class="btn g" onclick="closeM()">إغلاق</button></div></div></div>`;if(ok)$('#mok').onclick=()=>{ok();closeM();render()}}
+function closeM(){$('#mod').innerHTML=''}
+const v=id=>$('#'+id).value;
+function client(id){const c=S.clients.find(x=>x.id===id);const cs=S.cases.filter(x=>c.n.includes(x.c.replace('شركة ','').replace('مكتب ','')));const tx=S.tax.filter(t=>c.n.includes(t.c.replace('د. ','').split(' ')[0]));
+modal('ملف العميل: '+c.n,`<div class="row"><span>الرقم الضريبي</span><b>${c.tax}</b></div><div class="row"><span>الهاتف</span><b>${c.ph}</b></div><div class="row"><span>الرصيد المستحق</span><b>${f(c.bal)} ج.م</b></div><div class="row"><span>الإقرارات القادمة</span><b>${tx.filter(t=>!t.done).length}</b></div><div class="row"><span>القضايا</span><b>${cs.length}</b></div><p style="color:var(--mut);margin-bottom:0">المستندات: 📄 السجل التجاري · 📄 البطاقة الضريبية · 📄 عقد الأتعاب</p>`)}
+function addClient(){modal('عميل جديد',`<label>الاسم</label><input id="a1"><label>النوع</label><select id="a2"><option>شركة</option><option>فرد</option></select><label>الرقم الضريبي</label><input id="a3"><label>الهاتف</label><input id="a4">`,()=>{if(!v('a1'))return;S.clients.push({id:Date.now(),n:v('a1'),t:v('a2'),tax:v('a3')||'—',ph:v('a4')||'—',st:'نشط',bal:0})})}
+function addJE(){modal('قيد يومية جديد',`<label>البيان</label><input id="a1"><label>مدين</label><input id="a2" value="البنك"><label>دائن</label><input id="a3" value="إيرادات الأتعاب"><label>المبلغ</label><input id="a4" type="number">`,()=>{if(!v('a1')||!+v('a4'))return;S.je.unshift({id:S.je.length+1,d:'2026-10-31',desc:v('a1'),dr:v('a2'),cr:v('a3'),a:+v('a4')})})}
+function addInv(){modal('فاتورة جديدة',`<label>العميل</label><select id="a1">${S.clients.map(c=>`<option>${c.n}</option>`)}</select><label>المبلغ</label><input id="a2" type="number">`,()=>{if(!+v('a2'))return;S.inv.unshift({id:'INV-'+(1043+S.inv.length-4),c:v('a1'),a:+v('a2'),d:'2026-10-31',st:'معلقة'})})}
+function payInv(id){const i=S.inv.find(x=>x.id===id);if(i.st==='مدفوعة')return;i.st='مدفوعة';S.je.unshift({id:S.je.length+1,d:'2026-10-31',desc:'سداد فاتورة '+id,dr:'البنك',cr:'إيرادات الأتعاب',a:i.a});render()}
+function doneTax(id){S.tax.find(t=>t.id===id).done=true;render()}
+function mv(id){const t=S.tasks.find(x=>x.id===id);t.s=(t.s+1)%3;render()}
+function addTask(){modal('مهمة جديدة',`<label>المهمة</label><input id="a1"><label>الموظف</label><select id="a2">${S.emp.map(e=>`<option>${e.n}</option>`)}</select><label>العميل</label><select id="a3">${S.clients.map(c=>`<option>${c.n}</option>`)}</select>`,()=>{if(!v('a1'))return;S.tasks.push({id:Date.now(),t:v('a1'),who:v('a2'),c:v('a3'),s:0})})}
+render();
+</script>
+</body>
+</html>
